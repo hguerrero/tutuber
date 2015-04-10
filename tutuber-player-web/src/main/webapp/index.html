@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TuTuber Player</title>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.14/jquery.jscrollpane.min.css">
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<link rel="stylesheet" href="styles/main.css">
+</head>
+<body data-ng-app="TuTuberApp" data-ng-controller="TuTuberCtrl">
+
+	<div class="container-fluid">
+		<div class="-fullWidthContent">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="container">
+						<div class="row" data-ng-controller="SearchCtrl">
+
+							<nav class="navbar navbar-inverse" data-role="navigation">
+								<div class="row">
+									<div class="col-lg-12">
+										<div class="navbar-header">
+											<a class="navbar-brand" href="#"> <img
+												alt="YouTube Player" src="...">
+											</a>
+											<form
+												class="navbar-form nav-search navbar-right nav-input-group"
+												data-role="form" data-ng-submit="search()">
+												<div class="form-group">
+													<div class="input-group">
+														<div class="input-group-addon">
+															<i class="glyphicon glyphicon-search"></i>
+														</div>
+														<input type="text" class="form-control"
+															placeholder="Enter your YouTube search"
+															data-ng-model="searchTerm"> <span
+															class="input-group-btn">
+															<button type="submit" class="btn btn-info">Search
+																YouTube</button>
+														</span>
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</nav>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="col-lg-12">
+								<div class="col-lg-8" data-ng-controller="YouTubeCtrl">
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="header__playback-info">
+												<div class="playback-info">
+													<div class="playback-info__time-current">0:02</div>
+													<div class="playback-info__song">{{yt.title}}</div>
+													<div class="playback-info__time-total">1:13</div>
+												</div>
+												<div class="playback-progress" data-playback-progress="">
+													<span id="playback-progress__slider" style="width: 3.1%;"></span>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
+													<!-- 16:9 aspect ratio -->
+													<div class="embed-responsive embed-responsive-16by9">
+														<youtube width="{{yt.width}}" height="{{yt.height}}"
+															videoid="{{yt.videoid}}"></youtube>
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
+													<div class="header__controls">
+														<div class="volume-control">
+															<a class="volume__down" href="javascript:void(0);"
+																data-ng-click="volumeDown()"><i
+																class="glyphicon glyphicon-volume-down"></i></a>
+															<div class="volume__level" data-player-volume="">
+																<span style="width: 70%"></span>
+															</div>
+															<a class="volume__up" href="javascript:void(0);"
+																data-ng-click="volumeUp()"><i
+																class="glyphicon glyphicon-volume-up"></i></a>
+														</div>
+														<div class="playback-control">
+															<a class="playback__prev" href="javascript:void(0);"
+																data-ng-click="playbackPrev()"><i
+																class="glyphicon glyphicon-step-backward"></i></a> <a
+																class="playback__play-pause" href="javascript:void(0);"
+																data-ng-click="playbackPlayPause()"><i
+																class="glyphicon glyphicon-play"
+																data-ng-class="{true:'glyphicon-play', false:'glyphicon-pause'}[yt.playerPaused]"></i></a>
+															<a class="playback__next" href="javascript:void(0);"
+																data-ng-click="playbackNext()"><i
+																class="glyphicon glyphicon-step-forward"></i></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-lg-4" data-ng-controller="ResultsCtrl">
+									<div class="row">
+										<div class="col-lg-12">
+											<h4>Results: {{query.term}}</h4>
+											<div class="s-scroller1">
+												<div class="s-content1">
+													<div
+														data-ng-repeat="item in query.results.items | limitTo: 5">
+														<div class="row">
+															<div class="col-lg-5">
+																<p>
+																	<a href=""
+																		data-ng-click="play($index)"
+																		data-tooltip="{{ item.snippet.title }}"
+																		data-tooltip-popup-delay="3000"><img
+																		src="{{item.snippet.thumbnails.default.url}}"></a>
+																</p>
+															</div>
+															<div class="col-lg-7">
+																<div class="row">
+																	<a href=""
+																		data-ng-click="play($index)"
+																		data-tooltip="{{ item.snippet.title }}"
+																		data-tooltip-popup-delay="500">{{
+																		item.snippet.title | truncate: 25: "..." }}</a>
+																</div>
+																<div class="row">
+																	<span data-tooltip="{{ item.snippet.description }}"
+																		data-tooltip-popup-delay="1000">{{
+																		item.snippet.description | truncate: 80: "..." }}</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="row">
+							<div class="col-lg-12">
+								<div id="playlist">
+									<!-- ngRepeat: item in playlistSongs | filter:searchKeyword -->
+									<div data-ng-repeat="item in playlist.items"
+										data-ng-click="playSongOnClick($event)"
+										data-ng-class="{playing: item.playing}" class="col-lg-2">
+										<div >
+											<div class="thumbnail">
+												<img src="{{item.thumbnail}}" />
+											</div>
+											<div class="title">{{item.title}}</div>
+										</div>
+									</div>
+									<!-- end ngRepeat: item in playlistSongs | filter:searchKeyword -->
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+<!-- 
+					<footer>
+						<div class="container">
+							<div class="row">
+								<div class="col-md-4">&copy; 2015</div>
+								<div class="col-md-4">
+									<ul class="nav nav-pills">
+										<li class="active"><a href="#">About Us</a></li>
+										<li><a href="#">Support 24x7</a></li>
+										<li><a href="#">Privacy Policy</a></li>
+									</ul>
+								</div>
+								<div class="col-md-4">
+									<h3 class="text-right">Vacation Rentals</h3>
+								</div>
+							</div>
+						</div>
+					</footer>
+ -->
+ 
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-route.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-sanitize.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-animate.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-cookies.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-resource.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jScrollPane/2.0.14/jquery.jscrollpane.min.js"></script>
+	<script src="scripts/tutuber.js"></script>
+	<script src="https://apis.google.com/js/client.js?onload=googleApiClientReady"></script>
+
+</body>
+</html>

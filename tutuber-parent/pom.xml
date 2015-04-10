@@ -2,11 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>mx.tutuber</groupId>
 	<artifactId>tutuber-parent</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
-	<name>TuTuber</name>
+	
+	<name>TuTuber Common Parent</name>
+	<description>TuTuber Player Common Parent Module</description>
+	<url>http://www.tutuber.com</url>
+	
+	<organization>
+		<name>Arkingsoft</name>
+		<url>http://www.arkingsoft.com</url>
+	</organization>
 
 	<properties>
 		<!-- Explicitly declaring the source encoding eliminates the following 
@@ -29,8 +38,8 @@
 		<version.war.plugin>2.1.1</version.war.plugin>
 
 		<!-- maven-compiler-plugin -->
-		<maven.compiler.target>1.6</maven.compiler.target>
-		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.7</maven.compiler.target>
+		<maven.compiler.source>1.7</maven.compiler.source>
 	</properties>
 
 	<dependencyManagement>
