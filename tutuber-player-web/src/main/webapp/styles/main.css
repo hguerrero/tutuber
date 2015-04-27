@@ -220,9 +220,28 @@ footer .row {
 	overflow-x: auto;
 }
 
+#playlist .playing {
+	color: #fff;
+  background-color: #4689FA;
+  border-top: 1px solid #3A7FEE;
+  border-bottom: 1px solid #3A7FEE;
+}
+
 .col-lg-2 {
 	display: inline-block;
 	float: none;
+	color: #a2adba;
+	border-left: 1px solid #2b2c39;
+	border-right: 1px solid #2b2c39;
+	vertical-align: middle;
+}
+
+.col-lg-2:hover {
+	background-color: #414A59;
+}
+
+.col-lg-2 img {
+	cursor: pointer;
 }
 
 .fullscreen_bg {

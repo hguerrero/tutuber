@@ -128,11 +128,11 @@
 														<div class="row">
 															<div class="col-lg-5">
 																<p>
-																	<a href=""
-																		data-ng-click="play($index)"
+																	<a href="" data-ng-click="play($index)"
 																		data-tooltip="{{ item.snippet.title }}"
 																		data-tooltip-popup-delay="3000"><img
-																		src="{{item.snippet.thumbnails.default.url}}"></a>
+																		src="{{item.snippet.thumbnails.default.url}}"
+																		class="img-responsive"></a>
 																</p>
 															</div>
 															<div class="col-lg-7">
@@ -162,19 +162,25 @@
 
 						<div class="row">
 							<div class="col-lg-12">
-								<div id="playlist">
-									<!-- ngRepeat: item in playlistSongs | filter:searchKeyword -->
+								<div id="playlist" data-ng-controller="PlaylistCtrl">
 									<div data-ng-repeat="item in playlist.items"
-										data-ng-click="playSongOnClick($event)"
-										data-ng-class="{playing: item.playing}" class="col-lg-2">
-										<div >
-											<div class="thumbnail">
-												<img src="{{item.thumbnail}}" />
+										data-ng-click="playSongOnClick($index)"
+										data-ng-class="{playing: item.id === yt.videoid}" class="col-lg-2">
+										<div class="row">
+											<div class="col-lg-12">
+												<p>
+												<img src="{{item.thumbnail}}"
+													class="img-thumbnail img-responsive center-block" />
+												</p>
 											</div>
-											<div class="title">{{item.title}}</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-12">
+												<p class="text-center">{{ item.title | truncate: 25:
+													"..." }}</p>
+											</div>
 										</div>
 									</div>
-									<!-- end ngRepeat: item in playlistSongs | filter:searchKeyword -->
 								</div>
 							</div>
 						</div>

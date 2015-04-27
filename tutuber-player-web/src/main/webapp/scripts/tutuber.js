@@ -23,7 +23,10 @@ app.controller('TuTuberCtrl', function($scope) {
 			results : ''
 	};
 	
-	$scope.playlist = { items: [] };
+	$scope.playlist = { 
+			index: 0,
+			items: [] 
+	};
 	
 	$scope.yt = {
 			title: 'Video Title',
@@ -47,19 +50,48 @@ app.controller('YouTubeCtrl', function($scope, YT_event) {
 		$scope.yt.playerStatus = data;
 		if (data != 'PLAYING') {
 			$scope.yt.playerPaused = true;
+			if (data == 'ENDED') {
+				$scope.playbackNext();
+			}
 		}
 		else {
 			$scope.yt.playerPaused = false;
 		}
 	});
 	
-	$scope.playbackPlayPause = function(){
+	$scope.playbackPlayPause = function() {
 		if ($scope.yt.playerPaused) {
 			$scope.sendControlEvent(YT_event.PLAY);			
 		}
 		else {
 			$scope.sendControlEvent(YT_event.PAUSE);
 		}
+	};
+	
+	$scope.playbackPrev = function() {
+		var current = $scope.playlist.index;
+		if (current <= 0) {
+			return;
+		}
+		var item = $scope.playlist.items[--current];
+		
+		$scope.yt.videoid = item.id;
+		$scope.yt.title = item.title;
+		
+		$scope.playlist.index = current;
+	};
+	
+	$scope.playbackNext = function() {
+		var current = $scope.playlist.index;
+		if (current >= $scope.playlist.items.length - 1) {
+			return;
+		}
+		var item = $scope.playlist.items[++current];
+		
+		$scope.yt.videoid = item.id;
+		$scope.yt.title = item.title;
+		
+		$scope.playlist.index = current;
 	};
 });
 
@@ -75,8 +107,10 @@ app.controller('SearchCtrl', function($scope) {
 		});
 
 		request.execute(function(response) {
-			$scope.query.term = searchTerm;
-			$scope.query.results = response.result;
+			$scope.$apply(function () {
+				$scope.query.term = searchTerm;
+				$scope.query.results = response.result;
+	        });
 		});
 	};
 });
@@ -92,8 +126,23 @@ app.controller('ResultsCtrl', function($scope, YT_event) {
 		
 		$scope.playlist.items.push(item);
 		
+		if ($scope.playlist.items.length == 1) {
+			$scope.yt.videoid = item.id;
+			$scope.yt.title = item.title;
+			
+			$scope.playlist.index = $scope.playlist.items.length - 1;			
+		}
+	};
+});
+
+app.controller('PlaylistCtrl', function($scope, YT_event) {
+	$scope.playSongOnClick = function(index) {
+		var item = $scope.playlist.items[index];
+		
 		$scope.yt.videoid = item.id;
 		$scope.yt.title = item.title;
+		
+		$scope.playlist.index = index;
 	};
 });
 
